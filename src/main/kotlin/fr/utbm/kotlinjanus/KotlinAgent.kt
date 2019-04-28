@@ -23,7 +23,7 @@ open class KotlinAgent(parentId: UUID, agentId: UUID) : Agent(parentId, agentId)
     @SyntheticMember
     private var ioSarlCoreLogging: ClearableReference<Skill>? = null
 
-    private val eventsMap = hashMapOf<Class<out Event>, MutableList<(Event)->Unit>>()
+    val eventsMap = hashMapOf<Class<out Event>, MutableList<(Event)->Unit>>()
 
     fun uses(vararg capacities: KClass<out Capacity>) {
 
@@ -36,8 +36,21 @@ open class KotlinAgent(parentId: UUID, agentId: UUID) : Agent(parentId, agentId)
         this.eventsMap[clazz]?.add(init as (Event) -> Unit)
     }
 
+    inline fun <reified T: Event> on(noinline init: (T)->Unit) {
+        if(!this.eventsMap.containsKey(T::class.java))
+            this.eventsMap[T::class.java] = arrayListOf()
+
+        this.eventsMap[T::class.java]?.add(init as (Event) -> Unit)
+    }
+
     fun <T : Capacity>skill(clazz: Class<T>): T {
         val caller = this.`$castSkill`(clazz, this.`$getSkill`(clazz))
+
+        return caller
+    }
+
+    inline fun <reified T: Capacity>skill(): T {
+        val caller = this.`$castSkill`(T::class.java, this.`$getSkill`(T::class.java))
 
         return caller
     }

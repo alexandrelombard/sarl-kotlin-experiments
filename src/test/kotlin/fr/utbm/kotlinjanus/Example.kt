@@ -31,10 +31,22 @@ class MyEvent2 : Event()
 
 @SarlSpecification("0.9") class ChildKotlinAgent(parentId: UUID, agentId: UUID) : KotlinAgent(parentId, agentId) {
     init {
-        on(Initialize::class.java) {
+        /*on(Initialize::class.java) {
             println("Hello world")
 
             skill(Logging::class.java).info("I'm alive")
+        }*/
+
+        /*on<Initialize> {
+            println("Hello world")
+
+            skill(Logging::class.java).info("I'm alive")
+        }*/
+
+        on<Initialize> {
+            println("Hello world")
+
+            skill<Logging>().info("I'm alive")
         }
     }
 }
