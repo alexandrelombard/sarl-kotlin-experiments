@@ -36,6 +36,12 @@ open class KotlinAgent(parentId: UUID, agentId: UUID) : Agent(parentId, agentId)
         this.eventsMap[clazz]?.add(init as (Event) -> Unit)
     }
 
+    fun <T : Capacity>skill(clazz: Class<T>): T {
+        val caller = this.`$castSkill`(clazz, this.`$getSkill`(clazz))
+
+        return caller
+    }
+
     private fun `$behaviorUnit$Initialize$0`(occurrence: Initialize?) {
         val ioSarlCoreLogging = this.ioSarlCoreLogging
         val `_$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER` = this.`$castSkill`(

@@ -33,6 +33,8 @@ class MyEvent2 : Event()
     init {
         on(Initialize::class.java) {
             println("Hello world")
+
+            skill(Logging::class.java).info("I'm alive")
         }
     }
 }
