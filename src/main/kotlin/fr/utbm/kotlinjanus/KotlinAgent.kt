@@ -18,16 +18,14 @@ import kotlin.reflect.KClass
 @SarlSpecification("0.9")
 open class KotlinAgent(parentId: UUID, agentId: UUID) : Agent(parentId, agentId) {
 
+    /*
     @Extension
     @ImportedCapacityFeature(Logging::class)
     @SyntheticMember
     private var ioSarlCoreLogging: ClearableReference<Skill>? = null
+    */
 
     val eventsMap = hashMapOf<Class<out Event>, MutableList<(Event)->Unit>>()
-
-    fun uses(vararg capacities: KClass<out Capacity>) {
-
-    }
 
     fun <T: Event>on(clazz: Class<T>, init: (T)->Unit) {
         if(!this.eventsMap.containsKey(clazz))
@@ -53,31 +51,6 @@ open class KotlinAgent(parentId: UUID, agentId: UUID) : Agent(parentId, agentId)
         val caller = this.`$castSkill`(T::class.java, this.`$getSkill`(T::class.java))
 
         return caller
-    }
-
-    private fun `$behaviorUnit$Initialize$0`(occurrence: Initialize?) {
-        val ioSarlCoreLogging = this.ioSarlCoreLogging
-        val `_$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER` = this.`$castSkill`(
-            Logging::class.java,
-            if (ioSarlCoreLogging?.get() == null) {
-                this.ioSarlCoreLogging = this.`$getSkill`(Logging::class.java)
-                this.ioSarlCoreLogging
-            } else {
-                this.ioSarlCoreLogging
-            }
-        )
-        `_$CAPACITY_USE$IO_SARL_CORE_LOGGING$CALLER`.info("The agent was started.")
-    }
-
-    @SyntheticMember
-    @PerceptGuardEvaluator
-    private fun `$guardEvaluator$Initialize`(
-        occurrence: Initialize?,
-        ___SARLlocal_runnableCollection: MutableCollection<Runnable>
-    ) {
-        assert(occurrence != null)
-        assert(___SARLlocal_runnableCollection != null)
-        ___SARLlocal_runnableCollection.add(Runnable { `$behaviorUnit$Initialize$0`(occurrence) })
     }
 
     @SyntheticMember

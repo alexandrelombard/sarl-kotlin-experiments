@@ -2,6 +2,7 @@ package fr.utbm.kotlinjanus
 
 import io.janusproject.Boot
 import io.sarl.core.Initialize
+import io.sarl.core.Lifecycle
 import io.sarl.core.Logging
 import io.sarl.lang.annotation.SarlSpecification
 import io.sarl.lang.core.Event
@@ -47,6 +48,8 @@ class MyEvent2 : Event()
             println("Hello world")
 
             skill<Logging>().info("I'm alive")
+
+            skill<Lifecycle>().spawn(ChildKotlinAgent::class.java)
         }
     }
 }
